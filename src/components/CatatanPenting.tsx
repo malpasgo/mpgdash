@@ -18,6 +18,7 @@ export const CatatanPenting: React.FC<CatatanPentingProps> = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
+    category: 'insight' as CatatanPentingItem['category'],
     priority: 'medium' as CatatanPentingItem['priority']
   });
 
@@ -77,7 +78,7 @@ export const CatatanPenting: React.FC<CatatanPentingProps> = () => {
   // Handle add
   const handleAdd = () => {
     setEditingCatatan(null);
-    setFormData({ title: '', description: '', priority: 'medium' });
+    setFormData({ title: '', description: '', category: 'insight', priority: 'medium' });
     setIsModalOpen(true);
   };
 
@@ -87,6 +88,7 @@ export const CatatanPenting: React.FC<CatatanPentingProps> = () => {
     setFormData({ 
       title: item.title, 
       description: item.description || '', 
+      category: item.category,
       priority: item.priority 
     });
     setIsModalOpen(true);
@@ -129,6 +131,7 @@ export const CatatanPenting: React.FC<CatatanPentingProps> = () => {
           {
             title: formData.title,
             description: formData.description,
+            category: formData.category,
             priority: formData.priority
           }
         );
@@ -142,6 +145,7 @@ export const CatatanPenting: React.FC<CatatanPentingProps> = () => {
         const newItem = await catatanPentingService.createCatatanPenting({
           title: formData.title,
           description: formData.description,
+          category: formData.category,
           priority: formData.priority,
           status: 'open'
         });
@@ -366,6 +370,22 @@ export const CatatanPenting: React.FC<CatatanPentingProps> = () => {
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               placeholder="Deskripsikan kendala atau hal penting yang perlu ditangani secara detail..."
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Kategori *
+            </label>
+            <select
+              value={formData.category}
+              onChange={(e) => setFormData({ ...formData, category: e.target.value as CatatanPentingItem['category'] })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+            >
+              <option value="insight">Insight - Wawasan penting</option>
+              <option value="update">Update - Pembaruan informasi</option>
+              <option value="issue">Issue - Masalah yang perlu diselesaikan</option>
+              <option value="task">Task - Tugas yang harus dikerjakan</option>
+            </select>
           </div>
 
           <div>

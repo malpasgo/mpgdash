@@ -482,18 +482,22 @@ export const ROADMAP_PHASES = {
   }
 } as const;
 
-// Catatan Penting Interface (matching CatatanPenting component structure)
+// Catatan Penting Interface (matching database structure)
 export interface CatatanPentingItem {
   id: string;
   title: string;
   description?: string;
+  category: 'insight' | 'update' | 'issue' | 'task';
   priority: 'critical' | 'high' | 'medium' | 'low';
   status: 'open' | 'in-progress' | 'resolved' | 'closed';
-  kendala?: string;
-  solusi?: string;
+  assigned_to?: string;
+  due_date?: string;
+  tags?: string[];
+  related_module?: string;
+  related_id?: string;
+  created_by?: string;
   created_at: string;
   updated_at: string;
-  created_by?: string;
 }
 
 // Catatan Penting Service for Database Operations
@@ -570,6 +574,7 @@ export const catatanPentingService = {
         .from('catatan_penting')
         .insert({
           ...itemData,
+          category: itemData.category || 'insight', // Default category
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
         })
@@ -3198,7 +3203,7 @@ export const dashboardAnalyticsService = {
             severity: 'critical' as 'critical',
             title: note.title,
             message: note.description || note.title,
-            data: { catatan_id: note.id, kendala: note.kendala, solusi: note.solusi },
+            data: { catatan_id: note.id, category: note.category, priority: note.priority },
             created_at: note.created_at,
             action_required: true,
             action_url: `/catatan-penting?id=${note.id}`,
@@ -3218,7 +3223,7 @@ export const dashboardAnalyticsService = {
             severity: 'warning' as 'warning',
             title: note.title,
             message: note.description || note.title,
-            data: { catatan_id: note.id, kendala: note.kendala, solusi: note.solusi },
+            data: { catatan_id: note.id, category: note.category, priority: note.priority },
             created_at: note.created_at,
             action_required: true,
             action_url: `/catatan-penting?id=${note.id}`,
@@ -3238,7 +3243,7 @@ export const dashboardAnalyticsService = {
             severity: 'info' as 'info',
             title: note.title,
             message: note.description || note.title,
-            data: { catatan_id: note.id, kendala: note.kendala, solusi: note.solusi },
+            data: { catatan_id: note.id, category: note.category, priority: note.priority },
             created_at: note.created_at,
             action_required: false,
             action_url: `/catatan-penting?id=${note.id}`,
