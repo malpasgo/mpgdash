@@ -1,0 +1,65 @@
+name: Supabase Keep Alive
+
+on:
+  schedule:
+    # Jalan setiap 6 hari pada jam 00:00 UTC (07:00 WIB)
+    - cron: "0 0 */6 * *"
+  
+  # Bisa trigger manual dari GitHub Actions tab
+  workflow_dispatch:
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Keep Supabase Database Alive
+        run: |
+          echo "🔄 Pinging Supabase database..."
+          
+          # Ping menggunakan RPC function keepalive
+          response=$(curl -s -w "\n%{http_code}" -X POST \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/rpc/keepalive" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{}')
+          
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+          
+          echo "📊 Response code: $http_code"
+          echo "📄 Response body: $body"
+          
+          if [ "$http_code" -ge 200 ] && [ "$http_code" -lt 300 ]; then
+            echo "✅ Supabase database pinged successfully!"
+          else
+            echo "⚠️ Warning: Unexpected response code $http_code"
+            echo "Response: $body"
+            exit 1
+          fi
+      
+      - name: Verify Database Activity
+        run: |
+          echo "🔍 Verifying database is active..."
+          
+          # Query profiles table untuk memastikan database benar-benar aktif
+          response=$(curl -s -w "\n%{http_code}" -X GET \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/profiles?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}")
+          
+          http_code=$(echo "$response" | tail -n1)
+          
+          if [ "$http_code" -ge 200 ] && [ "$http_code" -lt 300 ]; then
+            echo "✅ Database is active and responding!"
+          else
+            echo "⚠️ Database verification failed with code $http_code"
+            exit 1
+          fi
+      
+      - name: Log Success
+        if: success()
+        run: |
+          echo "🎉 Keep-alive completed successfully at $(date -u)"
+          echo "⏰ Next scheduled run: in 6 days"
