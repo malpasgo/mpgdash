@@ -1,0 +1,181 @@
+/* Professional SVG Flag Icons for Business Application */
+.flag-icon {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  display: inline-block;
+  width: 24px;
+  height: 16px;
+  border-radius: 2px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+/* Malaysia Flag - 14 stripes with crescent and star */
+.flag-icon-my {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='20' fill='%23CC0001'/%3e%3crect width='28' height='1.43' y='0' fill='%23CC0001'/%3e%3crect width='28' height='1.43' y='2.86' fill='%23FFFFFF'/%3e%3crect width='28' height='1.43' y='5.72' fill='%23CC0001'/%3e%3crect width='28' height='1.43' y='8.58' fill='%23FFFFFF'/%3e%3crect width='28' height='1.43' y='11.44' fill='%23CC0001'/%3e%3crect width='28' height='1.43' y='14.3' fill='%23FFFFFF'/%3e%3crect width='28' height='1.43' y='17.16' fill='%23CC0001'/%3e%3crect width='12' height='12' fill='%23010066'/%3e%3ccircle cx='6' cy='6' r='3' fill='%23FFFFFF'/%3e%3ccircle cx='7.2' cy='6' r='2.5' fill='%23010066'/%3e%3cpath d='M6 3.5 L6.5 4.5 L7.5 4.5 L6.8 5.1 L7 6 L6 5.4 L5 6 L5.2 5.1 L4.5 4.5 L5.5 4.5 Z' fill='%23FFFFFF'/%3e%3c/svg%3e");
+}
+
+/* Singapore Flag - Red/white with crescent and 5 stars */
+.flag-icon-sg {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='10' fill='%23ED2939'/%3e%3crect width='28' height='10' y='10' fill='%23FFFFFF'/%3e%3ccircle cx='7' cy='5' r='2.5' fill='%23FFFFFF'/%3e%3ccircle cx='8.2' cy='5' r='2' fill='%23ED2939'/%3e%3cpath d='M4 2.5 L4.2 3 L4.7 3 L4.4 3.3 L4.5 3.8 L4 3.5 L3.5 3.8 L3.6 3.3 L3.3 3 L3.8 3 Z' fill='%23FFFFFF'/%3e%3cpath d='M6 1.5 L6.2 2 L6.7 2 L6.4 2.3 L6.5 2.8 L6 2.5 L5.5 2.8 L5.6 2.3 L5.3 2 L5.8 2 Z' fill='%23FFFFFF'/%3e%3cpath d='M8 2.5 L8.2 3 L8.7 3 L8.4 3.3 L8.5 3.8 L8 3.5 L7.5 3.8 L7.6 3.3 L7.3 3 L7.8 3 Z' fill='%23FFFFFF'/%3e%3cpath d='M10 4 L10.2 4.5 L10.7 4.5 L10.4 4.8 L10.5 5.3 L10 5 L9.5 5.3 L9.6 4.8 L9.3 4.5 L9.8 4.5 Z' fill='%23FFFFFF'/%3e%3cpath d='M8 6.5 L8.2 7 L8.7 7 L8.4 7.3 L8.5 7.8 L8 7.5 L7.5 7.8 L7.6 7.3 L7.3 7 L7.8 7 Z' fill='%23FFFFFF'/%3e%3c/svg%3e");
+}
+
+/* Thailand Flag - Red/white/blue tricolor */
+.flag-icon-th {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='20' fill='%23ED1C24'/%3e%3crect width='28' height='3.33' y='3.33' fill='%23FFFFFF'/%3e%3crect width='28' height='3.33' y='6.67' fill='%23241D4F'/%3e%3crect width='28' height='3.33' y='10' fill='%23241D4F'/%3e%3crect width='28' height='3.33' y='13.33' fill='%23FFFFFF'/%3e%3crect width='28' height='3.33' y='16.67' fill='%23ED1C24'/%3e%3c/svg%3e");
+}
+
+/* UAE Flag - Horizontal stripes with red vertical */
+.flag-icon-ae {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='20' fill='%23FF0000'/%3e%3crect width='21' height='6.67' x='7' fill='%2300732F'/%3e%3crect width='21' height='6.67' x='7' y='6.67' fill='%23FFFFFF'/%3e%3crect width='21' height='6.67' x='7' y='13.33' fill='%23000000'/%3e%3c/svg%3e");
+}
+
+/* Vietnam Flag - Red with yellow star */
+.flag-icon-vn {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='20' fill='%23DA020E'/%3e%3cpath d='M14 4 L15.5 8.5 L20 8.5 L16.5 11.5 L18 16 L14 13 L10 16 L11.5 11.5 L8 8.5 L12.5 8.5 Z' fill='%23FFFF00'/%3e%3c/svg%3e");
+}
+
+/* Philippines Flag - Blue/red with white triangle */
+.flag-icon-ph {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='10' fill='%230038A8'/%3e%3crect width='28' height='10' y='10' fill='%23CE1126'/%3e%3cpolygon points='0,0 0,20 14,10' fill='%23FFFFFF'/%3e%3ccircle cx='6' cy='7' r='1.5' fill='%23FCD116'/%3e%3cpath d='M6 12 L6.5 13 L7.5 13 L6.8 13.6 L7 14.5 L6 13.9 L5 14.5 L5.2 13.6 L4.5 13 L5.5 13 Z' fill='%23FCD116'/%3e%3cpath d='M3 10 L3.3 10.5 L3.8 10.5 L3.5 10.8 L3.6 11.3 L3 11 L2.4 11.3 L2.5 10.8 L2.2 10.5 L2.7 10.5 Z' fill='%23FCD116'/%3e%3cpath d='M9 10 L9.3 10.5 L9.8 10.5 L9.5 10.8 L9.6 11.3 L9 11 L8.4 11.3 L8.5 10.8 L8.2 10.5 L8.7 10.5 Z' fill='%23FCD116'/%3e%3c/svg%3e");
+}
+
+/* Saudi Arabia Flag */
+.flag-icon-sa {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='20' fill='%23006C35'/%3e%3ctext x='14' y='10' text-anchor='middle' font-size='3' fill='%23FFFFFF'%3eالله أكبر%3c/text%3e%3cpath d='M8 14 L12 14 L12 15 L10 17 L8 15 Z' fill='%23FFFFFF'/%3e%3c/svg%3e");
+}
+
+/* Qatar Flag */
+.flag-icon-qa {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='20' fill='%238D1B3D'/%3e%3cpolygon points='0,0 8,0 10,2 8,4 10,6 8,8 10,10 8,12 10,14 8,16 10,18 8,20 0,20' fill='%23FFFFFF'/%3e%3c/svg%3e");
+}
+
+/* Kuwait Flag */
+.flag-icon-kw {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='6.67' fill='%2300A04F'/%3e%3crect width='28' height='6.67' y='6.67' fill='%23FFFFFF'/%3e%3crect width='28' height='6.67' y='13.33' fill='%23E4002B'/%3e%3cpolygon points='0,0 0,20 8,13.33 8,6.67' fill='%23000000'/%3e%3c/svg%3e");
+}
+
+/* Japan Flag */
+.flag-icon-jp {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='20' fill='%23FFFFFF'/%3e%3ccircle cx='14' cy='10' r='6' fill='%23BC002D'/%3e%3c/svg%3e");
+}
+
+/* South Korea Flag */
+.flag-icon-kr {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='20' fill='%23FFFFFF'/%3e%3ccircle cx='14' cy='10' r='5' fill='none' stroke='%23CD2E3A' stroke-width='0.5'/%3e%3cpath d='M14 5 A5 5 0 0 1 14 15 A2.5 2.5 0 0 1 14 10 A2.5 2.5 0 0 0 14 5' fill='%23CD2E3A'/%3e%3cpath d='M14 5 A5 5 0 0 0 14 15 A2.5 2.5 0 0 0 14 10 A2.5 2.5 0 0 1 14 5' fill='%230047A0'/%3e%3c/svg%3e");
+}
+
+/* China Flag */
+.flag-icon-cn {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='20' fill='%23EE1C25'/%3e%3cpath d='M6 4 L7.5 6.5 L10.5 6.5 L8 8.5 L9 11.5 L6 9.5 L3 11.5 L4 8.5 L1.5 6.5 L4.5 6.5 Z' fill='%23FFFF00'/%3e%3cpath d='M11 2 L11.3 2.7 L12 2.7 L11.5 3.1 L11.7 3.8 L11 3.4 L10.3 3.8 L10.5 3.1 L10 2.7 L10.7 2.7 Z' fill='%23FFFF00'/%3e%3cpath d='M13 4 L13.3 4.7 L14 4.7 L13.5 5.1 L13.7 5.8 L13 5.4 L12.3 5.8 L12.5 5.1 L12 4.7 L12.7 4.7 Z' fill='%23FFFF00'/%3e%3cpath d='M13 7 L13.3 7.7 L14 7.7 L13.5 8.1 L13.7 8.8 L13 8.4 L12.3 8.8 L12.5 8.1 L12 7.7 L12.7 7.7 Z' fill='%23FFFF00'/%3e%3cpath d='M11 9 L11.3 9.7 L12 9.7 L11.5 10.1 L11.7 10.8 L11 10.4 L10.3 10.8 L10.5 10.1 L10 9.7 L10.7 9.7 Z' fill='%23FFFF00'/%3e%3c/svg%3e");
+}
+
+/* Taiwan Flag */
+.flag-icon-tw {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='20' fill='%23FE0000'/%3e%3crect width='14' height='10' fill='%23000095'/%3e%3ccircle cx='7' cy='5' r='3.5' fill='%23FFFFFF'/%3e%3ccircle cx='7' cy='5' r='2.5' fill='%23000095'/%3e%3ccircle cx='7' cy='5' r='1' fill='%23FFFFFF'/%3e%3c/svg%3e");
+}
+
+/* Hong Kong Flag */
+.flag-icon-hk {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='20' fill='%23DE2910'/%3e%3cpath d='M14 6 L16 8 L18 6 L20 8 L18 10 L20 12 L18 14 L16 12 L14 14 L12 12 L10 14 L8 12 L10 10 L8 8 L10 6 L12 8 Z' fill='%23FFFFFF'/%3e%3ccircle cx='14' cy='10' r='2' fill='%23DE2910'/%3e%3c/svg%3e");
+}
+
+/* United States Flag */
+.flag-icon-us {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='20' fill='%23B22234'/%3e%3crect width='28' height='1.54' y='1.54' fill='%23FFFFFF'/%3e%3crect width='28' height='1.54' y='4.62' fill='%23FFFFFF'/%3e%3crect width='28' height='1.54' y='7.69' fill='%23FFFFFF'/%3e%3crect width='28' height='1.54' y='10.77' fill='%23FFFFFF'/%3e%3crect width='28' height='1.54' y='13.85' fill='%23FFFFFF'/%3e%3crect width='28' height='1.54' y='16.92' fill='%23FFFFFF'/%3e%3crect width='11.2' height='10.77' fill='%233C3B6E'/%3e%3c/svg%3e");
+}
+
+/* United Kingdom Flag */
+.flag-icon-gb {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='20' fill='%23012169'/%3e%3cpolygon points='0,0 28,20 28,16 4,0' fill='%23FFFFFF'/%3e%3cpolygon points='0,20 28,0 28,4 4,20' fill='%23FFFFFF'/%3e%3cpolygon points='0,4 28,0 0,0' fill='%23FFFFFF'/%3e%3cpolygon points='0,16 28,20 0,20' fill='%23FFFFFF'/%3e%3crect width='28' height='3.33' y='8.33' fill='%23FFFFFF'/%3e%3crect width='1.87' height='20' x='13.07' fill='%23FFFFFF'/%3e%3crect width='28' height='2' y='9' fill='%23C8102E'/%3e%3crect width='1.33' height='20' x='13.33' fill='%23C8102E'/%3e%3c/svg%3e");
+}
+
+/* Germany Flag */
+.flag-icon-de {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='6.67' fill='%23000000'/%3e%3crect width='28' height='6.67' y='6.67' fill='%23DD0000'/%3e%3crect width='28' height='6.67' y='13.33' fill='%23FFCE00'/%3e%3c/svg%3e");
+}
+
+/* Netherlands Flag */
+.flag-icon-nl {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='6.67' fill='%23AE1C28'/%3e%3crect width='28' height='6.67' y='6.67' fill='%23FFFFFF'/%3e%3crect width='28' height='6.67' y='13.33' fill='%2321468B'/%3e%3c/svg%3e");
+}
+
+/* Australia Flag */
+.flag-icon-au {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='20' fill='%23012169'/%3e%3crect width='14' height='10' fill='%23012169'/%3e%3crect width='14' height='2' y='4' fill='%23FFFFFF'/%3e%3crect width='2' height='10' x='6' fill='%23FFFFFF'/%3e%3crect width='8' height='1' x='3' y='2' fill='%23FFFFFF'/%3e%3crect width='8' height='1' x='3' y='7' fill='%23FFFFFF'/%3e%3crect width='1' height='6' x='2' y='2' fill='%23FFFFFF'/%3e%3crect width='1' height='6' x='11' y='2' fill='%23FFFFFF'/%3e%3c/svg%3e");
+}
+
+/* New Zealand Flag */
+.flag-icon-nz {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='20' fill='%23012169'/%3e%3crect width='14' height='10' fill='%23012169'/%3e%3crect width='14' height='2' y='4' fill='%23FFFFFF'/%3e%3crect width='2' height='10' x='6' fill='%23FFFFFF'/%3e%3crect width='8' height='1' x='3' y='2' fill='%23FFFFFF'/%3e%3crect width='8' height='1' x='3' y='7' fill='%23FFFFFF'/%3e%3crect width='1' height='6' x='2' y='2' fill='%23FFFFFF'/%3e%3crect width='1' height='6' x='11' y='2' fill='%23FFFFFF'/%3e%3c/svg%3e");
+}
+
+/* Indonesia Flag */
+.flag-icon-id {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='10' fill='%23FF0000'/%3e%3crect width='28' height='10' y='10' fill='%23FFFFFF'/%3e%3c/svg%3e");
+}
+
+/* India Flag */
+.flag-icon-in {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='6.67' fill='%23FF9933'/%3e%3crect width='28' height='6.67' y='6.67' fill='%23FFFFFF'/%3e%3crect width='28' height='6.67' y='13.33' fill='%23138808'/%3e%3ccircle cx='14' cy='10' r='3' fill='none' stroke='%23000080' stroke-width='0.5'/%3e%3c/svg%3e");
+}
+
+/* France Flag */
+.flag-icon-fr {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='9.33' height='20' fill='%23002395'/%3e%3crect width='9.33' height='20' x='9.33' fill='%23FFFFFF'/%3e%3crect width='9.33' height='20' x='18.67' fill='%23ED2939'/%3e%3c/svg%3e");
+}
+
+/* Italy Flag */
+.flag-icon-it {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='9.33' height='20' fill='%23009246'/%3e%3crect width='9.33' height='20' x='9.33' fill='%23FFFFFF'/%3e%3crect width='9.33' height='20' x='18.67' fill='%23CE2B37'/%3e%3c/svg%3e");
+}
+
+/* Spain Flag */
+.flag-icon-es {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='5' fill='%23C60B1E'/%3e%3crect width='28' height='10' y='5' fill='%23FFC400'/%3e%3crect width='28' height='5' y='15' fill='%23C60B1E'/%3e%3c/svg%3e");
+}
+
+/* Brazil Flag */
+.flag-icon-br {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='20' fill='%2300A859'/%3e%3cpath d='M14 2 L24 10 L14 18 L4 10 Z' fill='%23FFDF00'/%3e%3ccircle cx='14' cy='10' r='4' fill='%23002776'/%3e%3c/svg%3e");
+}
+
+/* Canada Flag */
+.flag-icon-ca {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='7' height='20' fill='%23FF0000'/%3e%3crect width='14' height='20' x='7' fill='%23FFFFFF'/%3e%3crect width='7' height='20' x='21' fill='%23FF0000'/%3e%3cpath d='M14 6 L15 8 L17 8 L15.5 9.5 L16 11.5 L14 10.5 L12 11.5 L12.5 9.5 L11 8 L13 8 Z' fill='%23FF0000'/%3e%3c/svg%3e");
+}
+
+/* Russia Flag */
+.flag-icon-ru {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='6.67' fill='%23FFFFFF'/%3e%3crect width='28' height='6.67' y='6.67' fill='%230039A6'/%3e%3crect width='28' height='6.67' y='13.33' fill='%23D52B1E'/%3e%3c/svg%3e");
+}
+
+/* Mexico Flag */
+.flag-icon-mx {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='9.33' height='20' fill='%23006847'/%3e%3crect width='9.33' height='20' x='9.33' fill='%23FFFFFF'/%3e%3crect width='9.33' height='20' x='18.67' fill='%23CE1126'/%3e%3c/svg%3e");
+}
+
+/* South Africa Flag */
+.flag-icon-za {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='10' fill='%23000000'/%3e%3crect width='28' height='10' y='10' fill='%230E4B99'/%3e%3cpolygon points='0,0 0,20 14,10' fill='%23E03C31'/%3e%3cpolygon points='0,0 0,8 6,4' fill='%23FFFFFF'/%3e%3cpolygon points='0,12 0,20 6,16' fill='%23FFFFFF'/%3e%3cpolygon points='0,0 0,6 4,3' fill='%23007749'/%3e%3cpolygon points='0,14 0,20 4,17' fill='%23007749'/%3e%3c/svg%3e");
+}
+
+/* Default flag for unknown countries */
+.flag-icon-unknown {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3e%3crect width='28' height='20' fill='%23F3F4F6' stroke='%239CA3AF' stroke-width='1' stroke-dasharray='2,2'/%3e%3ctext x='14' y='12' text-anchor='middle' font-size='8' fill='%236B7280'%3e?%3c/text%3e%3c/svg%3e");
+}
+
+/* Professional styling */
+.flag-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.country-name {
+  font-weight: 500;
+  color: #374151;
+  font-size: 14px;
+}

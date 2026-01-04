@@ -1,0 +1,178 @@
+/* Global styles for the roadmap dashboard */
+.App {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+/* Animation utilities for submenu expand/collapse */
+.animate-in {
+  animation-name: animate-in;
+  animation-duration: 200ms;
+  animation-fill-mode: forwards;
+}
+
+.slide-in-from-top-2 {
+  animation-name: slide-in-from-top;
+}
+
+@keyframes animate-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes slide-in-from-top {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Submenu styling */
+.submenu-item {
+  position: relative;
+  padding-left: 2rem;
+  border-left: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.submenu-item:hover {
+  border-left-color: #e5e7eb;
+  background-color: #f9fafb;
+}
+
+.submenu-item.active {
+  border-left-color: #3b82f6;
+  background-color: #eff6ff;
+}
+
+/* Line clamp utility for text truncation */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* Custom scrollbar for better UX */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Focus styles for accessibility */
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* Auto-hide sidebar styles */
+.auto-hide-sidebar {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.auto-hide-sidebar:hover {
+  transform: translateX(0) !important;
+}
+
+/* Auto-hide mode indicator */
+.auto-hide-active {
+  border-left: 3px solid #3b82f6;
+}
+
+/* Smooth sidebar slide animations */
+.sidebar-slide-enter {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.sidebar-slide-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform 300ms ease-out, opacity 300ms ease-out;
+}
+
+.sidebar-slide-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.sidebar-slide-exit-active {
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 300ms ease-in, opacity 300ms ease-in;
+}
+
+/* Mouse proximity detection zone */
+.mouse-detection-zone {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 100vh;
+  z-index: 60;
+  pointer-events: none;
+}

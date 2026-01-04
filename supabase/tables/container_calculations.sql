@@ -1,0 +1,20 @@
+CREATE TABLE container_calculations (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    calculation_name VARCHAR(200),
+    container_type_id UUID NOT NULL,
+    shipping_route_id UUID,
+    cargo_length DECIMAL(8,3) NOT NULL,
+    cargo_width DECIMAL(8,3) NOT NULL,
+    cargo_height DECIMAL(8,3) NOT NULL,
+    cargo_weight DECIMAL(10,2) NOT NULL,
+    dimension_unit VARCHAR(10) NOT NULL,
+    weight_unit VARCHAR(10) NOT NULL,
+    cargo_value DECIMAL(12,2),
+    max_boxes INTEGER,
+    loading_efficiency DECIMAL(5,2),
+    total_weight DECIMAL(10,3),
+    total_cbm DECIMAL(10,4),
+    total_cost DECIMAL(12,2),
+    calculation_data JSONB,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);

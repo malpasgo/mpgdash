@@ -1,0 +1,606 @@
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Plus,
+  Search,
+  FileText,
+  AlertTriangle,
+  Calendar,
+  DollarSign,
+  Users,
+  Clock,
+  CheckCircle,
+  XCircle,
+  Eye,
+  Edit,
+  Download,
+  CreditCard,
+  TrendingUp,
+  TrendingDown,
+  Calculator,
+  Filter,
+  ArrowUpDown,
+  Receipt,
+  Target
+} from 'lucide-react';
+import { invoiceService, Invoice } from '@/lib/supabase';
+import InvoiceForm from './InvoiceForm';
+import InvoiceDetail from './InvoiceDetail';
+import { formatCurrency, formatDate } from '@/lib/utils';
+
+interface InvoiceStats {
+  total: number;
+  draft: number;
+  sent: number;
+  partial: number;
+  paid: number;
+  overdue: number;
+  cancelled: number;
+  totalOutstanding: number;
+  totalOverdue: number;
+  totalPaid: number;
+}
+
+const InvoiceManagement: React.FC = () => {
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [filteredInvoices, setFilteredInvoices] = useState<Invoice[]>([]);
+  const [overdueInvoices, setOverdueInvoices] = useState<Invoice[]>([]);
+  const [stats, setStats] = useState<InvoiceStats>({
+    total: 0,
+    draft: 0,
+    sent: 0,
+    partial: 0,
+    paid: 0,
+    overdue: 0,
+    cancelled: 0,
+    totalOutstanding: 0,
+    totalOverdue: 0,
+    totalPaid: 0
+  });
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [typeFilter, setTypeFilter] = useState<string>('all');
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+  const [showInvoiceForm, setShowInvoiceForm] = useState(false);
+  const [editingInvoice, setEditingInvoice] = useState<Invoice | null>(null);
+
+  useEffect(() => {
+    loadInvoices();
+    loadOverdueInvoices();
+  }, []);
+
+  useEffect(() => {
+    filterInvoices();
+  }, [invoices, searchQuery, statusFilter, typeFilter]);
+
+  const loadInvoices = async () => {
+    try {
+      setLoading(true);
+      const data = await invoiceService.getAllInvoices();
+      setInvoices(data);
+      calculateStats(data);
+    } catch (error) {
+      console.error('Error loading invoices:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadOverdueInvoices = async () => {
+    try {
+      const overdue = await invoiceService.getOverdueInvoices();
+      setOverdueInvoices(overdue);
+    } catch (error) {
+      console.error('Error loading overdue invoices:', error);
+    }
+  };
+
+  const calculateStats = (invoiceData: Invoice[]) => {
+    const newStats = invoiceData.reduce(
+      (acc, invoice) => {
+        acc.total++;
+        acc[invoice.status.toLowerCase() as keyof InvoiceStats]++;
+        
+        if (invoice.payment_status !== 'Paid') {
+          acc.totalOutstanding += invoice.total_amount_idr || 0;
+        }
+        
+        if (invoice.payment_status === 'Paid') {
+          acc.totalPaid += invoice.total_amount_idr || 0;
+        }
+        
+        // Check if overdue
+        const today = new Date();
+        const dueDate = new Date(invoice.due_date);
+        if (dueDate < today && invoice.payment_status !== 'Paid') {
+          acc.overdue++;
+          acc.totalOverdue += invoice.total_amount_idr || 0;
+        }
+        
+        return acc;
+      },
+      {
+        total: 0,
+        draft: 0,
+        sent: 0,
+        partial: 0,
+        paid: 0,
+        overdue: 0,
+        cancelled: 0,
+        totalOutstanding: 0,
+        totalOverdue: 0,
+        totalPaid: 0
+      }
+    );
+    
+    setStats(newStats);
+  };
+
+  const filterInvoices = () => {
+    let filtered = invoices;
+
+    if (searchQuery) {
+      filtered = filtered.filter(
+        (invoice) =>
+          invoice.invoice_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          invoice.customer_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (invoice.notes && invoice.notes.toLowerCase().includes(searchQuery.toLowerCase()))
+      );
+    }
+
+    if (statusFilter !== 'all') {
+      filtered = filtered.filter((invoice) => invoice.status.toLowerCase() === statusFilter);
+    }
+
+    if (typeFilter !== 'all') {
+      filtered = filtered.filter((invoice) => invoice.invoice_type.toLowerCase().replace(' ', '') === typeFilter);
+    }
+
+    setFilteredInvoices(filtered);
+  };
+
+  const getStatusBadge = (status: string, paymentStatus: string) => {
+    if (paymentStatus === 'Paid') {
+      return (
+        <Badge className="bg-green-100 text-green-800 border-green-300 bg-green-50 flex items-center gap-2 px-4 py-2 rounded-xl border-2 font-semibold shadow-sm">
+          <CheckCircle className="w-4 h-4" />
+          Paid
+        </Badge>
+      );
+    }
+    
+    const statusConfig = {
+      Draft: { color: 'bg-gray-100 text-gray-800 border-gray-300', icon: FileText, bgClass: 'bg-gray-50' },
+      Sent: { color: 'bg-blue-100 text-blue-800 border-blue-300', icon: TrendingUp, bgClass: 'bg-blue-50' },
+      Partial: { color: 'bg-yellow-100 text-yellow-800 border-yellow-300', icon: Clock, bgClass: 'bg-yellow-50' },
+      Paid: { color: 'bg-green-100 text-green-800 border-green-300', icon: CheckCircle, bgClass: 'bg-green-50' },
+      Overdue: { color: 'bg-red-100 text-red-800 border-red-300', icon: XCircle, bgClass: 'bg-red-50' },
+      Cancelled: { color: 'bg-gray-100 text-gray-800 border-gray-300', icon: XCircle, bgClass: 'bg-gray-50' }
+    };
+
+    const config = statusConfig[status as keyof typeof statusConfig] || statusConfig['Draft'];
+    const Icon = config.icon;
+    return (
+      <Badge className={`${config.color} ${config.bgClass} flex items-center gap-2 px-4 py-2 rounded-xl border-2 font-semibold shadow-sm`}>
+        <Icon className="w-4 h-4" />
+        {status}
+      </Badge>
+    );
+  };
+
+  const getTypeBadge = (type: string) => {
+    const typeConfig = {
+      Proforma: { color: 'bg-purple-100 text-purple-800 border-purple-300', icon: Receipt, bgClass: 'bg-purple-50' },
+      Commercial: { color: 'bg-blue-100 text-blue-800 border-blue-300', icon: FileText, bgClass: 'bg-blue-50' },
+      'Credit Note': { color: 'bg-orange-100 text-orange-800 border-orange-300', icon: TrendingDown, bgClass: 'bg-orange-50' },
+      'Debit Note': { color: 'bg-red-100 text-red-800 border-red-300', icon: TrendingUp, bgClass: 'bg-red-50' }
+    };
+
+    const config = typeConfig[type as keyof typeof typeConfig] || typeConfig['Proforma'];
+    const Icon = config.icon;
+    return (
+      <Badge variant="outline" className={`${config.color} ${config.bgClass} flex items-center gap-2 px-4 py-2 rounded-xl border-2 font-semibold shadow-sm`}>
+        <Icon className="w-4 h-4" />
+        {type}
+      </Badge>
+    );
+  };
+
+  const getDaysOverdue = (dueDate: string) => {
+    const today = new Date();
+    const due = new Date(dueDate);
+    const diffTime = today.getTime() - due.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
+
+  const handleInvoiceCreated = () => {
+    setShowInvoiceForm(false);
+    setEditingInvoice(null);
+    loadInvoices();
+    loadOverdueInvoices();
+  };
+
+  const handleEditInvoice = (invoice: Invoice) => {
+    setEditingInvoice(invoice);
+    setShowInvoiceForm(true);
+  };
+
+  const handleViewInvoice = (invoice: Invoice) => {
+    setSelectedInvoice(invoice);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto p-6 space-y-8">
+        {/* Enhanced Header with gradient background and professional styling */}
+        <div className="bg-gradient-to-r from-purple-600 to-indigo-700 rounded-3xl p-8 text-white shadow-2xl">
+          <div className="flex justify-between items-start">
+            <div className="space-y-4">
+              <div className="flex items-center space-x-4">
+                <div className="p-4 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20">
+                  <Receipt className="h-10 w-10" />
+                </div>
+                <div>
+                  <h1 className="text-5xl font-bold leading-tight">Invoice Management</h1>
+                  <p className="text-purple-100 text-xl mt-2 font-medium">
+                    Kelola Proforma Invoice, Commercial Invoice, dan Payment Tracking dengan efisien
+                  </p>
+                </div>
+              </div>
+              
+              {/* Enhanced Quick Stats in Header */}
+              <div className="flex items-center space-x-8 mt-8">
+                <div className="flex items-center space-x-3 bg-white/15 rounded-2xl px-6 py-3 border border-white/20">
+                  <div className="p-2 bg-white/20 rounded-lg">
+                    <Target className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <span className="text-white/80 text-sm font-medium block">Total Invoice</span>
+                    <span className="font-bold text-2xl">{stats.total}</span>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3 bg-white/15 rounded-2xl px-6 py-3 border border-white/20">
+                  <div className="p-2 bg-white/20 rounded-lg">
+                    <DollarSign className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <span className="text-white/80 text-sm font-medium block">Outstanding</span>
+                    <span className="font-bold text-xl">{formatCurrency(stats.totalOutstanding, 'IDR').slice(0, 15)}...</span>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3 bg-white/15 rounded-2xl px-6 py-3 border border-white/20">
+                  <div className="p-2 bg-white/20 rounded-lg">
+                    <AlertTriangle className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <span className="text-white/80 text-sm font-medium block">Overdue</span>
+                    <span className="font-bold text-2xl text-yellow-300">{stats.overdue}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Enhanced Action Button */}
+            <Dialog open={showInvoiceForm} onOpenChange={setShowInvoiceForm}>
+              <DialogTrigger asChild>
+                <Button className="bg-white text-purple-600 hover:bg-purple-50 shadow-2xl px-8 py-4 text-lg font-bold rounded-2xl border-2 border-white/20 transition-all duration-300 hover:scale-105">
+                  <Plus className="w-6 h-6 mr-3" />
+                  Buat Invoice Baru
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto rounded-3xl">
+                <DialogHeader>
+                  <DialogTitle className="text-3xl font-bold text-gray-800">
+                    {editingInvoice ? 'Edit Invoice' : 'Buat Invoice Baru'}
+                  </DialogTitle>
+                </DialogHeader>
+                <InvoiceForm
+                  invoice={editingInvoice}
+                  onSave={handleInvoiceCreated}
+                  onCancel={() => {
+                    setShowInvoiceForm(false);
+                    setEditingInvoice(null);
+                  }}
+                />
+              </DialogContent>
+            </Dialog>
+          </div>
+        </div>
+
+        {/* Enhanced Alerts for Overdue Invoices */}
+        {overdueInvoices.length > 0 && (
+          <Alert className="border-red-200 bg-gradient-to-r from-red-50 to-pink-50 shadow-lg">
+            <div className="flex items-start space-x-3">
+              <div className="p-2 bg-red-100 rounded-lg">
+                <AlertTriangle className="h-5 w-5 text-red-600" />
+              </div>
+              <div className="flex-1">
+                <AlertDescription className="text-red-800">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <strong className="text-lg">Invoice Overdue Alert</strong>
+                      <p className="mt-1">Ada {overdueInvoices.length} invoice yang sudah jatuh tempo.</p>
+                      <p className="text-sm text-red-700 mt-2">
+                        Total nilai overdue: <span className="font-semibold">{formatCurrency(stats.totalOverdue, 'IDR')}</span>
+                      </p>
+                    </div>
+                    <Button variant="outline" className="border-red-300 text-red-700 hover:bg-red-100">
+                      <Eye className="w-4 h-4 mr-2" />
+                      Lihat Detail
+                    </Button>
+                  </div>
+                </AlertDescription>
+              </div>
+            </div>
+          </Alert>
+        )}
+
+        {/* Enhanced Stats Cards with Modern Design */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 shadow-lg hover:shadow-xl transition-all duration-300">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-blue-500 rounded-xl shadow-md">
+                    <FileText className="h-8 w-8 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-blue-700">Total Invoice</p>
+                    <p className="text-3xl font-bold text-blue-900">{stats.total}</p>
+                    <p className="text-xs text-blue-600 mt-1">Semua Invoice</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-amber-50 to-amber-100 border-amber-200 shadow-lg hover:shadow-xl transition-all duration-300">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-amber-500 rounded-xl shadow-md">
+                    <DollarSign className="h-8 w-8 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-amber-700">Total Outstanding</p>
+                    <p className="text-2xl font-bold text-amber-900">
+                      {formatCurrency(stats.totalOutstanding, 'IDR').slice(0, 12)}...
+                    </p>
+                    <p className="text-xs text-amber-600 mt-1">Belum Terbayar</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200 shadow-lg hover:shadow-xl transition-all duration-300">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-green-500 rounded-xl shadow-md">
+                    <CheckCircle className="h-8 w-8 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-green-700">Total Paid</p>
+                    <p className="text-2xl font-bold text-green-900">
+                      {formatCurrency(stats.totalPaid, 'IDR').slice(0, 12)}...
+                    </p>
+                    <p className="text-xs text-green-600 mt-1">Sudah Terbayar</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-red-50 to-red-100 border-red-200 shadow-lg hover:shadow-xl transition-all duration-300">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-red-500 rounded-xl shadow-md">
+                    <AlertTriangle className="h-8 w-8 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-red-700">Overdue</p>
+                    <p className="text-3xl font-bold text-red-900">{stats.overdue}</p>
+                    <p className="text-xs text-red-600 mt-1">
+                      {formatCurrency(stats.totalOverdue, 'IDR').slice(0, 10)}...
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+      {/* Filters */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex-1">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Input
+                  placeholder="Cari berdasarkan nomor invoice, customer, atau notes..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+            </div>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Filter Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Semua Status</SelectItem>
+                <SelectItem value="draft">Draft</SelectItem>
+                <SelectItem value="sent">Sent</SelectItem>
+                <SelectItem value="partial">Partial</SelectItem>
+                <SelectItem value="paid">Paid</SelectItem>
+                <SelectItem value="overdue">Overdue</SelectItem>
+                <SelectItem value="cancelled">Cancelled</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={typeFilter} onValueChange={setTypeFilter}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Filter Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Semua Type</SelectItem>
+                <SelectItem value="proforma">Proforma</SelectItem>
+                <SelectItem value="commercial">Commercial</SelectItem>
+                <SelectItem value="creditnote">Credit Note</SelectItem>
+                <SelectItem value="debitnote">Debit Note</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Invoice Table */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Daftar Invoice</CardTitle>
+          <CardDescription>
+            Menampilkan {filteredInvoices.length} dari {invoices.length} total invoice
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {loading ? (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+            </div>
+          ) : filteredInvoices.length === 0 ? (
+            <div className="text-center py-8 text-gray-500">
+              {searchQuery || statusFilter !== 'all' || typeFilter !== 'all'
+                ? 'Tidak ada invoice yang sesuai dengan filter'
+                : 'Belum ada invoice yang terdaftar'}
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b">
+                    <th className="text-left py-3 px-4 font-medium text-gray-700">Invoice</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-700">Customer</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-700">Tanggal</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-700">Jatuh Tempo</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-700">Amount</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-700">Status</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-700">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredInvoices.map((invoice) => {
+                    const daysOverdue = getDaysOverdue(invoice.due_date);
+                    const isOverdue = daysOverdue > 0 && invoice.payment_status !== 'Paid';
+                    
+                    return (
+                      <tr key={invoice.id} className="border-b hover:bg-gray-50">
+                        <td className="py-3 px-4">
+                          <div className="flex items-center space-x-2">
+                            <div>
+                              <div className="font-medium text-blue-600">{invoice.invoice_number}</div>
+                              {getTypeBadge(invoice.invoice_type)}
+                            </div>
+                          </div>
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className="font-medium">{invoice.customer_name}</div>
+                          {invoice.lc_id && (
+                            <div className="text-sm text-gray-500">Linked to LC</div>
+                          )}
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className="font-medium">{formatDate(invoice.invoice_date)}</div>
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className={`font-medium ${
+                            isOverdue ? 'text-red-600' : ''
+                          }`}>
+                            {formatDate(invoice.due_date)}
+                          </div>
+                          {isOverdue && (
+                            <div className="text-sm text-red-600 font-medium">
+                              {daysOverdue} hari terlambat
+                            </div>
+                          )}
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className="font-medium">
+                            {formatCurrency(invoice.total_amount, invoice.currency)}
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            {formatCurrency(invoice.total_amount_idr, 'IDR')}
+                          </div>
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className="space-y-1">
+                            {getStatusBadge(invoice.status, invoice.payment_status)}
+                          </div>
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className="flex space-x-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleViewInvoice(invoice)}
+                            >
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleEditInvoice(invoice)}
+                            >
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                            <Button size="sm" variant="outline">
+                              <Download className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Invoice Detail Modal */}
+      <Dialog open={!!selectedInvoice} onOpenChange={() => setSelectedInvoice(null)}>
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Detail Invoice</DialogTitle>
+          </DialogHeader>
+          {selectedInvoice && (
+            <InvoiceDetail
+              invoice={selectedInvoice}
+              onClose={() => setSelectedInvoice(null)}
+              onEdit={() => {
+                setEditingInvoice(selectedInvoice);
+                setSelectedInvoice(null);
+                setShowInvoiceForm(true);
+              }}
+              onRefresh={loadInvoices}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+};
+
+export default InvoiceManagement;
